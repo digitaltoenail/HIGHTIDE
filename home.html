@@ -1,1 +1,454 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIGHTIDE | Interactive Brand Guide</title>
+    <!-- Chosen Palette: Earthy Neutrals (Inspired by HIGHTIDE's guide: Driftwood Tan, Algae Green, Rusted Coral, Sun-faded Navy, Salt-Stained Black) -->
+    <!-- Application Structure Plan: A single-page, top-down narrative structure with a sticky navigation bar for non-linear exploration. The flow is designed to tell a story: 1. Hero (Brand Essence), 2. Ethos (Mission & Muse), 3. Collection (Interactive Product Showcase), 4. Visuals (Interactive Brand Palette & Typography), 5. Business (Digestible Business Model Canvas), 6. Vision (Social Media Mockup). This structure turns a static report into an engaging journey, prioritizing visual and interactive discovery while keeping detailed data accessible on demand, which is more user-friendly for investors or partners. -->
+    <!-- Visualization & Content Choices: 
+        - Mission Statement -> Goal: Inform/Inspire -> Viz: Impactful hero text. Justification: Strong first impression.
+        - Capsule Collection -> Goal: Engage/Organize -> Viz: Interactive gallery with a 3-column grid. Interaction: Clicking a product updates a dedicated detail view. Justification: Encourages product discovery. Library: Vanilla JS.
+        - Color Palette -> Goal: Inform/Interact -> Viz: Series of colored blocks. Interaction: Hovering reveals color details. Justification: Makes the brand palette tangible. Library: Vanilla JS.
+        - Business Model Canvas -> Goal: Organize/Inform -> Viz: A 3x3 grid of clickable cards. Interaction: Clicking a card reveals details in a modal-like view. Justification: Breaks down dense business data into digestible, user-initiated chunks. Library: Vanilla JS.
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #F8F5F2; /* A very light, warm neutral base */
+            font-family: 'Space Mono', monospace;
+            color: #2E2E2E;
+        }
+        h1, h2, h3, .font-primary {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+        .hightide-wave-icon {
+            display: inline-block;
+            width: 1.2em;
+            height: 0.8em;
+            border-top: 2px solid currentColor;
+            border-radius: 50% 50% 0 0;
+            margin-bottom: 0.1em;
+        }
+        .nav-link {
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #C2644B;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        .product-card, .business-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .product-card:hover, .business-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .product-card.active {
+            border-color: #C2644B;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .business-card.active {
+             background-color: #4A6F52;
+             color: #F8F5F2;
+             border-color: #4A6F52;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header id="header" class="bg-[#F8F5F2]/80 backdrop-blur-lg sticky top-0 z-50 transition-shadow duration-300">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#hero" class="text-2xl font-primary tracking-widest text-[#2E2E2E]">HIGHTIDE</a>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#ethos" class="nav-link">Ethos</a>
+                <a href="#collection" class="nav-link">Collection</a>
+                <a href="#visuals" class="nav-link">Visuals</a>
+                <a href="#business" class="nav-link">Business</a>
+                <a href="#vision" class="nav-link">Vision</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="min-h-screen flex items-center justify-center bg-cover bg-center" style="background-color: #D1BFA3;">
+            <div class="text-center text-[#2E2E2E] px-4">
+                <div class="hightide-wave-icon text-4xl mb-4"></div>
+                <h1 class="text-5xl md:text-8xl font-bold tracking-wider leading-tight">HIGHTIDE</h1>
+                <p class="mt-4 text-lg md:text-xl font-mono">Swim Far. Stay Wild.</p>
+            </div>
+        </section>
+
+        <!-- The Ethos -->
+        <section id="ethos" class="py-20 md:py-32 bg-[#F8F5F2]">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-4xl md:text-5xl tracking-wider">Our Ethos</h2>
+                <p class="max-w-3xl mx-auto mt-6 text-base leading-relaxed">
+                    This section defines our purpose and the person we design for. It's the soul of our brand, capturing the spirit of adventure that fuels every design.
+                </p>
+                <div class="mt-16 grid md:grid-cols-2 gap-12 items-center">
+                    <div class="text-left p-8 bg-white rounded-lg shadow-sm">
+                        <h3 class="text-2xl tracking-wider mb-4">Our Mission</h3>
+                        <p class="text-base leading-loose">At HIGHTIDE, we create surfwear for the wild-hearted. Our suits are made for girls who paddle out at sunrise, hike down cliffs barefoot, and dive into cold coves without hesitation. We blend function with fearless design—quick-drying, salt-proof, and built for life between tides, treks, and trailheads. Whether you're chasing waves or swimming in alpine silence, HIGHTIDE moves with you.</p>
+                    </div>
+                    <div class="text-left p-8 bg-white rounded-lg shadow-sm">
+                        <h3 class="text-2xl tracking-wider mb-4">The HIGHTIDE Woman</h3>
+                        <p class="text-base leading-loose mb-4">She is an adventurer aged 25-45, driven by experience over trend. Her values are rooted in nature and resilience.</p>
+                        <ul class="space-y-2">
+                            <li class="flex items-start"><span class="hightide-wave-icon mr-3 mt-1 flex-shrink-0"></span><span>Paddles out at sunrise, not for the crowd but for the calm.</span></li>
+                            <li class="flex items-start"><span class="hightide-wave-icon mr-3 mt-1 flex-shrink-0"></span><span>Environmentally conscious, seeking sustainable and durable gear.</span></li>
+                            <li class="flex items-start"><span class="hightide-wave-icon mr-3 mt-1 flex-shrink-0"></span><span>Values authenticity, grit, and functional, thoughtful design.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Collection -->
+        <section id="collection" class="py-20 md:py-32" style="background-color: #EAE5E1;">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl tracking-wider">The "Between the Breaks" Collection</h2>
+                    <p class="max-w-3xl mx-auto mt-6 text-base leading-relaxed">
+                       This is our inaugural capsule collection. Each piece is purpose-built for versatility and durability, moving with you from wave to trail. Click an item below to discover its unique features and design story.
+                    </p>
+                </div>
+
+                <div class="grid lg:grid-cols-3 gap-8 items-start">
+                    <!-- Products Grid -->
+                    <div class="lg:col-span-1 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-6">
+                        <div id="prod-tideSuit" class="product-card active cursor-pointer border-2 border-transparent p-4 rounded-lg bg-white">
+                            <h3 class="text-xl font-primary">1. Tide Suit</h3>
+                            <p class="text-sm mt-1">Long-sleeve one-piece for full coverage.</p>
+                        </div>
+                        <div id="prod-cliffset" class="product-card cursor-pointer border-2 border-transparent p-4 rounded-lg bg-white">
+                            <h3 class="text-xl font-primary">2. Cliffset Top & Bottom</h3>
+                            <p class="text-sm mt-1">Secure compression bikini for high-impact activity.</p>
+                        </div>
+                        <div id="prod-saltshorts" class="product-card cursor-pointer border-2 border-transparent p-4 rounded-lg bg-white">
+                            <h3 class="text-xl font-primary">3. Saltshorts</h3>
+                            <p class="text-sm mt-1">Quick-dry thermal shorts for cold dips.</p>
+                        </div>
+                    </div>
+                    <!-- Product Details Display -->
+                    <div class="lg:col-span-2 p-8 rounded-lg bg-white shadow-lg min-h-[300px]">
+                        <div id="product-details">
+                            <!-- JS will populate this -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Brand Visuals -->
+        <section id="visuals" class="py-20 md:py-32 bg-[#F8F5F2]">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl tracking-wider">Brand Visuals</h2>
+                    <p class="max-w-3xl mx-auto mt-6 text-base leading-relaxed">
+                        Our visual identity is inspired by the rugged, natural environments our gear is built for. Interact with the elements below to see the core components of our aesthetic.
+                    </p>
+                </div>
+                <!-- Color Palette -->
+                <div>
+                    <h3 class="text-2xl tracking-wider text-center mb-8">Color Palette</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 max-w-4xl mx-auto">
+                         <div class="color-swatch text-center" data-name="Salt-Stained Black" data-hex="#2E2E2E">
+                            <div class="h-24 w-full rounded-lg shadow-inner" style="background-color: #2E2E2E;"></div>
+                        </div>
+                        <div class="color-swatch text-center" data-name="Algae Green" data-hex="#4A6F52">
+                            <div class="h-24 w-full rounded-lg shadow-inner" style="background-color: #4A6F52;"></div>
+                        </div>
+                        <div class="color-swatch text-center" data-name="Rusted Coral" data-hex="#C2644B">
+                            <div class="h-24 w-full rounded-lg shadow-inner" style="background-color: #C2644B;"></div>
+                        </div>
+                        <div class="color-swatch text-center" data-name="Driftwood Tan" data-hex="#D1BFA3">
+                            <div class="h-24 w-full rounded-lg shadow-inner" style="background-color: #D1BFA3;"></div>
+                        </div>
+                        <div class="color-swatch text-center" data-name="Tidal Grey" data-hex="#7B8C8D">
+                            <div class="h-24 w-full rounded-lg shadow-inner" style="background-color: #7B8C8D;"></div>
+                        </div>
+                        <div class="color-swatch text-center" data-name="Sun-faded Navy" data-hex="#2B3A42">
+                            <div class="h-24 w-full rounded-lg shadow-inner" style="background-color: #2B3A42;"></div>
+                        </div>
+                    </div>
+                    <div id="color-info" class="text-center mt-4 h-10 font-mono">
+                        <p>Hover over a color to see details</p>
+                    </div>
+                </div>
+                <!-- Typography -->
+                <div class="mt-16">
+                     <h3 class="text-2xl tracking-wider text-center mb-8">Typography</h3>
+                     <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                        <div class="p-6 bg-white rounded-lg text-center">
+                            <p class="text-lg">Primary</p>
+                            <p class="font-primary text-5xl mt-2">Oswald</p>
+                            <p class="mt-2 text-sm">Rugged, bold, and highly readable. Used for all major headings to convey strength.</p>
+                        </div>
+                        <div class="p-6 bg-white rounded-lg text-center">
+                            <p class="text-lg">Secondary</p>
+                            <p class="text-4xl mt-2" style="font-family: 'Space Mono', monospace;">Space Mono</p>
+                            <p class="mt-2 text-sm">A soft, modern monospaced font that provides contrast and a touch of technical precision.</p>
+                        </div>
+                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Business -->
+        <section id="business" class="py-20 md:py-32" style="background-color: #EAE5E1;">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl tracking-wider">The Business Model</h2>
+                    <p class="max-w-3xl mx-auto mt-6 text-base leading-relaxed">
+                        Our business model is designed for sustainable growth, focusing on direct connection with our community while building a strong brand presence. Click any card to explore a component of our strategy.
+                    </p>
+                </div>
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <!-- Business Model Grid -->
+                    <div class="lg:col-span-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
+                        <div id="biz-value-prop" class="business-card cursor-pointer p-4 rounded-lg bg-white border-2 border-transparent">
+                            <h3 class="text-xl font-primary">Value Proposition</h3>
+                        </div>
+                        <div id="biz-customer-seg" class="business-card cursor-pointer p-4 rounded-lg bg-white border-2 border-transparent">
+                            <h3 class="text-xl font-primary">Customer Segments</h3>
+                        </div>
+                        <div id="biz-channels" class="business-card cursor-pointer p-4 rounded-lg bg-white border-2 border-transparent">
+                            <h3 class="text-xl font-primary">Channels</h3>
+                        </div>
+                         <div id="biz-revenue" class="business-card cursor-pointer p-4 rounded-lg bg-white border-2 border-transparent">
+                            <h3 class="text-xl font-primary">Revenue Streams</h3>
+                        </div>
+                    </div>
+                    <!-- Business Details -->
+                    <div class="lg:col-span-2 p-8 rounded-lg bg-white shadow-lg min-h-[300px]">
+                        <div id="business-details">
+                           <!-- JS will populate this -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+         <!-- Vision Section -->
+        <section id="vision" class="py-20 md:py-32 bg-[#F8F5F2]">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl tracking-wider">Brand Vision</h2>
+                    <p class="max-w-3xl mx-auto mt-6 text-base leading-relaxed">
+                       This is how our brand comes to life in the wild. Our vision is to build a community around shared adventures, captured through authentic, compelling storytelling on platforms like Instagram.
+                    </p>
+                </div>
+                <div class="max-w-md mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-4 border-b border-gray-200 flex items-center justify-between">
+                         <div class="flex items-center">
+                            <div class="h-10 w-10 rounded-full bg-center bg-cover" style="background-color: #2E2E2E;">
+                                <div class="h-full w-full flex items-center justify-center">
+                                    <div class="hightide-wave-icon text-white text-lg"></div>
+                                </div>
+                            </div>
+                            <span class="ml-3 font-bold text-sm">hightide.co</span>
+                         </div>
+                         <span class="font-bold">...</span>
+                    </div>
+                    <div class="w-full h-96 bg-cover bg-center" style="background-image: url('https://storage.googleapis.com/gemini-prod/images/45561a34-2e96-418c-bfd7-56e63283626e.jpeg')"></div>
+                    <div class="p-4">
+                        <div class="flex items-center space-x-4 mb-2">
+                            <!-- Icons Placeholder -->
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                        </div>
+                        <p class="text-sm">
+                            <span class="font-bold">hightide.co</span> The first light is always worth it. The Tide Suit, built for wherever the tide takes you.
+                        </p>
+                        <p class="text-sm text-gray-500 mt-1">#BuiltForTheBreaks #SwimFarStayWild</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-[#2E2E2E] text-[#D1BFA3]">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p class="font-primary text-2xl tracking-widest">HIGHTIDE</p>
+            <p class="mt-4 text-sm">&copy; 2025 HIGHTIDE. Adventure-ready. Ocean-made.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const productData = {
+                tideSuit: {
+                    title: "Tide Suit",
+                    description: "Our signature one-piece, designed for full coverage and unrestricted movement. The front zip allows for easy entry and adjustable ventilation, while the long sleeves provide protection from the sun and chill. Perfect for long surf sessions that stretch into the evening.",
+                    features: ["Moss green with rust stitching", "Thumb holes for secure sleeves", "Integrated gear loop for keys or tools", "Quick-drying, salt-proof fabric"]
+                },
+                cliffset: {
+                    title: "Cliffset Top & Bottom",
+                    description: "A compression bikini engineered for security and support during high-impact activities. The top features a secure cross-back strap system that won't budge, while the deep waistband on the bottom provides a confident, flattering fit.",
+                    features: ["Algae Green & Sun-faded Navy colorways", "Secure cross-back strap design", "Deep waistband bottom with a stash loop", "Made from high-compression, shape-retaining material"]
+                },
+                saltshorts: {
+                    title: "Saltshorts",
+                    description: "The ultimate solution for cold dips and waterside treks. These quick-dry shorts feature a thermal fleece lining for warmth and a stretch waistband for comfort. The waterproof back pocket keeps essentials safe and dry.",
+                    features: ["Driftwood Tan color", "Quick-dry exterior with thermal fleece lining", "Comfortable stretch waistband", "Waterproof zippered back pocket"]
+                }
+            };
+            
+            const businessData = {
+                'value-prop': {
+                    title: "Value Proposition",
+                    content: "High-performance, durable, and stylish surfwear designed for women in both ocean and land activities. We blend technical performance with a tough, utilitarian, and feminine aesthetic, offering versatile apparel for seamless transitions between environments."
+                },
+                'customer-seg': {
+                    title: "Customer Segments",
+                    content: "Our primary customer is an active woman aged 25-45, passionate about outdoor adventure like surfing, swimming, and hiking. She is environmentally conscious, independent, and values authentic experiences over trends. She prioritizes durability, function, and unique style."
+                },
+                'channels': {
+                    title: "Channels",
+                    content: "We will focus on a Direct-to-Consumer (DTC) model via our e-commerce site and social media (Instagram, Pinterest). We will also pursue selective wholesale partnerships with curated surf shops and specialty outdoor boutiques that align with our brand values."
+                },
+                'revenue': {
+                    title: "Revenue Streams",
+                    content: "Primary revenue will come from product sales through our DTC and wholesale channels. Future opportunities include limited edition drops, collaborations with complementary brands, and a line of branded accessories like dry bags and towels."
+                }
+            };
+
+            const productDetailsContainer = document.getElementById('product-details');
+            const productCards = document.querySelectorAll('.product-card');
+
+            function displayProduct(productId) {
+                const product = productData[productId];
+                if (!product) return;
+
+                let featuresHtml = product.features.map(feature => 
+                    `<li class="flex items-start"><span class="hightide-wave-icon mr-3 mt-1 text-[#C2644B] flex-shrink-0"></span><span>${feature}</span></li>`
+                ).join('');
+
+                productDetailsContainer.innerHTML = `
+                    <h3 class="font-primary text-3xl text-[#2E2E2E] tracking-wider mb-4">${product.title}</h3>
+                    <p class="text-base text-gray-700 leading-relaxed mb-6">${product.description}</p>
+                    <ul class="space-y-3 text-gray-800">${featuresHtml}</ul>
+                `;
+
+                productCards.forEach(card => {
+                    card.classList.remove('active');
+                });
+                document.getElementById(`prod-${productId}`).classList.add('active');
+            }
+
+            productCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const productId = card.id.replace('prod-', '');
+                    displayProduct(productId);
+                });
+            });
+
+            const businessDetailsContainer = document.getElementById('business-details');
+            const businessCards = document.querySelectorAll('.business-card');
+
+            function displayBusinessDetail(sectionId) {
+                const section = businessData[sectionId];
+                if(!section) return;
+
+                businessDetailsContainer.innerHTML = `
+                    <h3 class="font-primary text-3xl text-[#2E2E2E] tracking-wider mb-4">${section.title}</h3>
+                    <p class="text-base text-gray-700 leading-loose">${section.content}</p>
+                `;
+                
+                businessCards.forEach(card => card.classList.remove('active'));
+                document.getElementById(`biz-${sectionId}`).classList.add('active');
+            }
+
+            businessCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const sectionId = card.id.replace('biz-', '');
+                    displayBusinessDetail(sectionId);
+                })
+            });
+
+            // Color Swatch Interaction
+            const colorSwatches = document.querySelectorAll('.color-swatch');
+            const colorInfo = document.getElementById('color-info');
+            const originalColorInfo = colorInfo.innerHTML;
+
+            colorSwatches.forEach(swatch => {
+                swatch.addEventListener('mouseover', () => {
+                    const name = swatch.dataset.name;
+                    const hex = swatch.dataset.hex;
+                    colorInfo.innerHTML = `<span class="font-bold">${name}</span> - ${hex}`;
+                });
+                swatch.addEventListener('mouseleave', () => {
+                    colorInfo.innerHTML = originalColorInfo;
+                });
+            });
+
+            // Nav link active state on scroll
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            const observerOptions = {
+                root: null,
+                rootMargin: "0px",
+                threshold: 0.4
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if(link.getAttribute('href').substring(1) === entry.target.id) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Header shadow on scroll
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 10) {
+                    header.classList.add('shadow-md');
+                } else {
+                    header.classList.remove('shadow-md');
+                }
+            });
+
+
+            // Initial state
+            displayProduct('tideSuit');
+            displayBusinessDetail('value-prop');
+
+        });
+    </script>
+</body>
+</html>
 
